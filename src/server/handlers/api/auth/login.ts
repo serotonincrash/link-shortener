@@ -2,8 +2,16 @@ import { Request, Response } from "express";
 import { User } from "../../../../models/userModel.js";
 import bcrypt from "bcryptjs";
 import messages from "../../../../static/messages.js";
+import { validationResult } from "express-validator";
 
 async function login(req: Request, res: Response) {
+
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400);
+        res.send(messages.error.bad_request);
+    }
+
     let username = req.body.username;
     let password = req.body.password;
 
