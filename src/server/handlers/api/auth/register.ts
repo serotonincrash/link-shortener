@@ -19,7 +19,7 @@ async function register(req: Request, res: Response) {
 
     if (username === undefined || password === undefined || email === undefined) {
         res.status(400);
-        res.send(messages.permissions.bad_request);
+        res.send(messages.error.bad_request);
     }
     try {
         let user = await registerUser(username, password, email);
@@ -31,7 +31,7 @@ async function register(req: Request, res: Response) {
         res.status(500);
         if (e.code === 11000) {
             res.status(400);
-            res.send(messages.auth.user_already_exists);
+            res.send(messages.permissions.user_already_exists);
         } else {
             res.send(e.message);
         }
