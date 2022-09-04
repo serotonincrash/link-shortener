@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../../../../models/userModel.js";
 import passwordValidator from "password-validator";
 import bcrypt from "bcryptjs";
+import messages from "../../../../static/messages.js";
 
 // Password validation schema
 let schema = new passwordValidator()
@@ -16,17 +17,21 @@ async function register(req: Request, res: Response) {
     let password = req.body.password;
     let email = req.body.email;
 
+    if (username === undefined || password === undefined || email === undefined) {
+        res.status(400);
+        res.send(messages.bad_request);
+    }
     try {
         let user = await registerUser(username, password, email);
         req.session.username = user.username;
         req.session.email = user.email;
-        res.send("Registered and logged in successfully.")
+        res.send(messages.register_success)
         
     } catch (e:any) {
         res.status(500);
         if (e.code === 11000) {
             res.status(400);
-            res.send("This user already exists!")
+            res.send(messages.user_already_exists);
         } else {
             res.send(e.message);
         }

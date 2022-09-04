@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../../../../models/userModel.js";
 import bcrypt from "bcryptjs";
+import messages from "../../../../static/messages.js";
 
 async function login(req: Request, res: Response) {
     let username = req.body.username;
@@ -10,12 +11,12 @@ async function login(req: Request, res: Response) {
         let user = await loginUser(username, password);
         req.session.username = user.username;
         req.session.email = user.email;
-        res.send("Logged in successfully.");
+        res.send(messages.login_success);
         
     } catch (e:any) {
         res.status(500);
         if (e instanceof Error) {
-            res.send("Login failed");
+            res.send(messages.login_failed);
         }
     } finally {
         res.end();

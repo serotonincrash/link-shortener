@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-
+import messages from "../../../static/messages.js";
 function loginChecker(req: Request, res: Response, next: Function) {
     // Checks whether user is logged in
     if (req.session.username !== undefined) {
         next();
     } else {
         res.status(401);
-        res.end("You need to be logged in to do this!");
+        res.end(messages.not_logged_in);
         return;
     } 
 }
