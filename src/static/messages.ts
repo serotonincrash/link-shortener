@@ -6,6 +6,10 @@ let messages = {
             "failed": "Login failed.",
     
         },
+        "logout": {
+            "success": "Logout successful.",
+            "failed": "Logout failed.",
+        },
         "register": {
             "success": "Registration successful.",
             "fail": "Registration failed.",
