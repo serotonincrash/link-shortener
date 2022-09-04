@@ -19,19 +19,19 @@ async function register(req: Request, res: Response) {
 
     if (username === undefined || password === undefined || email === undefined) {
         res.status(400);
-        res.send(messages.bad_request);
+        res.send(messages.permissions.bad_request);
     }
     try {
         let user = await registerUser(username, password, email);
         req.session.username = user.username;
         req.session.email = user.email;
-        res.send(messages.register_success)
+        res.send(messages.register.success)
         
     } catch (e:any) {
         res.status(500);
         if (e.code === 11000) {
             res.status(400);
-            res.send(messages.user_already_exists);
+            res.send(messages.auth.user_already_exists);
         } else {
             res.send(e.message);
         }
