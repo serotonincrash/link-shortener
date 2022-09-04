@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../../../../models/userModel.js";
+import { validationResult } from "express-validator";
 import passwordValidator from "password-validator";
 import bcrypt from "bcryptjs";
 import messages from "../../../../static/messages.js";
@@ -12,27 +13,31 @@ let schema = new passwordValidator()
     .has().not().spaces(0, "Password should not have any spaces!")
 
 async function register(req: Request, res: Response) {
-    // get the information from the request
-    let username = req.body.username;
-    let password = req.body.password;
-    let email = req.body.email;
 
-    if (username === undefined || password === undefined || email === undefined) {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
         res.status(400);
         res.send(messages.error.bad_request);
     }
+
+    let username = req.body.username;
+    let password = req.body.password;
+    let passwordConfirm = req.body.passwordConfirm;
+    let email = req.body.email;
+
     try {
-        let user = await registerUser(username, password, email);
+        let user = await registerUser(username, password, passwordConfirm, email);
         req.session.username = user.username;
         req.session.email = user.email;
         res.send(messages.auth.register.success)
-        
-    } catch (e:any) {
+
+    } catch (e: any) {
         res.status(500);
         if (e.code === 11000) {
             res.status(400);
             res.send(messages.permissions.user_already_exists);
         } else {
+            res.status(400);
             res.send(e.message);
         }
     } finally {
@@ -42,7 +47,7 @@ async function register(req: Request, res: Response) {
 
 }
 
-async function registerUser(username: string, password: string, email: string) {
+async function registerUser(username: string, password: string, passwordConfirm: string, email: string) {
     // process password
     const validPass = schema.validate(password, { details: true }) as any[]
     if (validPass.length > 0) {
@@ -51,23 +56,28 @@ async function registerUser(username: string, password: string, email: string) {
         for (let reason of validPass) {
             messages.push(reason.message);
         }
-        
+
         throw new Error(messages.toString());
 
-    } else {
-        // password is valid, hash it and create user
-        const hash = await bcrypt.hash(password, 8);
-        let user = await User.create(
-            {
-                username: username,
-                password: hash,
-                email: email
-            }
-        )
-
-        return user;
-        
     }
+
+    if (password !== passwordConfirm) {
+        let err = new Error("Your passwords aren't the same!");
+        throw err;
+
+    }
+    // password is valid, hash it and create user
+    const hash = await bcrypt.hash(password, 8);
+    let user = await User.create(
+        {
+            username: username,
+            password: hash,
+            email: email
+        }
+    )
+
+    return user;
+
 }
 
 export default register;
