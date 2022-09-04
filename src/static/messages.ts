@@ -24,7 +24,7 @@ let messages = {
     },
     "error": {
         "internal_error": "Something went wrong.",
-        "bad_request": "One or more fields is missing",
+        "bad_request": "One or more fields is missing.",
         "error_occured": "An error occured.",
     },
 
