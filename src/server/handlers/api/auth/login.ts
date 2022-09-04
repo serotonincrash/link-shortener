@@ -10,6 +10,7 @@ async function login(req: Request, res: Response) {
     if (!errors.isEmpty()) {
         res.status(400);
         res.send(messages.error.bad_request);
+        return;
     }
 
     let username = req.body.username;
@@ -50,4 +51,4 @@ async function loginUser(username: string, password: string) {
     return user;
 }
 
-export default login;
+export { login, loginUser };

@@ -1,6 +1,11 @@
 let messages = {
     
     "auth": {
+        "password": {
+            "min_chars": "Password should be minimum 8 characters!",
+            "max_chars": "Password should not be more than 100 charcters!",
+            "no_spaces": "Password should not have any spaces",
+        },
         "login": {
             "success": "Login successful.",
             "failed": "Login failed.",

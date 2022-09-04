@@ -7,17 +7,26 @@ import messages from "../../../../static/messages.js";
 
 // Password validation schema
 let schema = new passwordValidator()
-    .is().min(8, "Password should be minimum 8 characters!")
-    .is().max(100, "Password should not be more than 100 charcters!")
-    .has().lowercase()
-    .has().not().spaces(0, "Password should not have any spaces!")
+    .is().min(8, messages.auth.password.min_chars)
+    .is().max(100, messages.auth.password.max_chars)
+    .has().lowercase(0)
+    .has().not().spaces(0, messages.auth.password.no_spaces);
 
 async function register(req: Request, res: Response) {
 
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
+        for (let error of errors.array()) {
+            if (error.param === "password") {
+                res.status(400);
+                res.send(error.msg);
+                return;
+            }
+        }
+
         res.status(400);
         res.send(messages.error.bad_request);
+        return;
     }
 
     let username = req.body.username;
@@ -48,7 +57,7 @@ async function register(req: Request, res: Response) {
 }
 
 async function registerUser(username: string, password: string, passwordConfirm: string, email: string) {
-    // process password
+
     const validPass = schema.validate(password, { details: true }) as any[]
     if (validPass.length > 0) {
         // At least one rule was broken
