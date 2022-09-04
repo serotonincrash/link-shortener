@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../../../../models/userModel.js";
 import passwordValidator from "password-validator";
-import { Crypt } from "unpc";
-import { BCryptHashingAdapter } from "unpc/bcrypt";
+import bcrypt from "bcryptjs";
 
 // Password validation schema
 let schema = new passwordValidator()
@@ -11,12 +10,6 @@ let schema = new passwordValidator()
     .has().lowercase()
     .has().not().spaces(0, "Password should not have any spaces!")
 
-const crypt = new Crypt(
-    {
-        default: "bcrypt",
-        adapters: [BCryptHashingAdapter]
-    }
-)
 async function register(req: Request, res: Response) {
     // get the information from the request
     let username = req.body.username;
@@ -25,9 +18,10 @@ async function register(req: Request, res: Response) {
 
     try {
         let user = await registerUser(username, password, email);
-        res.send("Registered and logged in successfully.")
         req.session.username = user.username;
         req.session.email = user.email;
+        res.send("Registered and logged in successfully.")
+        
     } catch (e:any) {
         res.status(500);
         if (e.code === 11000) {
@@ -57,8 +51,7 @@ async function registerUser(username: string, password: string, email: string) {
 
     } else {
         // password is valid, hash it and create user
-        const hash = await crypt.hash(password);
-
+        const hash = await bcrypt.hash(password, 8);
         let user = await User.create(
             {
                 username: username,

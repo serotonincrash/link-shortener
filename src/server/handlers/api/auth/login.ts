@@ -1,14 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../../../../models/userModel.js";
-import { Crypt } from "unpc";
-import { BCryptHashingAdapter } from "unpc/bcrypt";
-
-const crypt = new Crypt(
-    {
-        default: "bcrypt",
-        adapters: [BCryptHashingAdapter]
-    }
-)
+import bcrypt from "bcryptjs";
 
 async function login(req: Request, res: Response) {
     let username = req.body.username;
@@ -16,9 +8,10 @@ async function login(req: Request, res: Response) {
 
     try {
         let user = await loginUser(username, password);
-        res.send("Logged in successfully.");
         req.session.username = user.username;
         req.session.email = user.email;
+        res.send("Logged in successfully.");
+        
     } catch (e:any) {
         res.status(500);
         if (e instanceof Error) {
@@ -40,7 +33,7 @@ async function loginUser(username: string, password: string) {
 
     // Validate password
 
-    let isPasswordCorrect = await crypt.verify(user.password, password);
+    let isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
         throw new Error("Login failed: incorrect password")
