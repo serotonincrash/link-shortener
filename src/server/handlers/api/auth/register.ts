@@ -25,7 +25,7 @@ async function register(req: Request, res: Response) {
         let user = await registerUser(username, password, email);
         req.session.username = user.username;
         req.session.email = user.email;
-        res.send(messages.register.success)
+        res.send(messages.auth.register.success)
         
     } catch (e:any) {
         res.status(500);

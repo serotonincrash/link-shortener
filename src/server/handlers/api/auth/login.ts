@@ -11,12 +11,12 @@ async function login(req: Request, res: Response) {
         let user = await loginUser(username, password);
         req.session.username = user.username;
         req.session.email = user.email;
-        res.send(messages.login.success);
+        res.send(messages.auth.login.success);
         
     } catch (e:any) {
         res.status(500);
         if (e instanceof Error) {
-            res.send(messages.login.failed);
+            res.send(messages.auth.login.failed);
         }
     } finally {
         res.end();

@@ -1,14 +1,19 @@
 let messages = {
-    "login": {
-        "success": "Login successful.",
-        "failed": "Login failed.",
-
-    },
-    "register": {
-        "success": "Registration successful.",
-        "fail": "Registration failed.",
-    },
+    
     "auth": {
+        "login": {
+            "success": "Login successful.",
+            "failed": "Login failed.",
+    
+        },
+        "register": {
+            "success": "Registration successful.",
+            "fail": "Registration failed.",
+        },
+        "delete": {
+            "success": "Account deleted.",
+            "fail": "Deletion failed.",
+        },
         "user_already_exists": "This user already exists!",
         "not_logged_in": "You're not logged in!",
     },
@@ -17,6 +22,9 @@ let messages = {
         "not_allowed": "You're not allowed to do this!",
         "bad_request": "One or more fields is missing",
         "error_occured": "An error occured.",
+    },
+    "error": {
+        "internal_error": "Something went wrong.",
     },
 
 
