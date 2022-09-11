@@ -37,7 +37,7 @@ async function register(req: Request, res: Response) {
         res.status(500);
         if (e.code === 11000) {
             res.status(403);
-            res.send(messages.permissions.user_already_exists);
+            res.send(messages.auth.user_already_exists);
         } else {
             res.status(400);
             res.send(e.message);

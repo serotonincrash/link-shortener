@@ -27,6 +27,8 @@ let messages = {
             "success": "Password updated successfully.",
             "fail": "Password update failed.",
         },
+        "user_already_exists": "This user already exists!",
+        "user_doesnt_exist": "This user doesn't exist!",
     },
     "url": {
         "add": {
@@ -44,12 +46,13 @@ let messages = {
             "success": "URL edited successfully.",
             "fail": "Failed to edit URL.",
         },
+        "already_exists": "This short URL already exists!",
+        "doesnt_exist": "This short URL doesn't exist!",
+
     },
     "permissions": {
         "cant_do_that": "You can't do that!",
         "not_allowed": "You're not allowed to do this!",
-        "user_already_exists": "This user already exists!",
-        "url_already_exists": "This short URL already exists!",
         "not_logged_in": "You're not logged in!",
     },
     "error": {

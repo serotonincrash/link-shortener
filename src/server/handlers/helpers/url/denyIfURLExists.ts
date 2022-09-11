@@ -12,7 +12,7 @@ async function denyIfURLExists(req: Request, res: Response, next: Function) {
         next();
     } else {
         res.status(403);
-        res.end(messages.permissions.url_already_exists);
+        res.end(messages.url.already_exists);
         return;
     }
 }
