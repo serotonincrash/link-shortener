@@ -1,16 +1,8 @@
 import { Request, Response } from "express";
 import { User } from "../../../../models/userModel.js";
 import { validationResult } from "express-validator";
-import passwordValidator from "password-validator";
 import bcrypt from "bcryptjs";
 import messages from "../../../../static/messages.js";
-
-// Password validation schema
-let schema = new passwordValidator()
-    .is().min(8, messages.auth.password.min_chars)
-    .is().max(100, messages.auth.password.max_chars)
-    .has().lowercase(0)
-    .has().not().spaces(0, messages.auth.password.no_spaces);
 
 async function register(req: Request, res: Response) {
 
@@ -57,18 +49,6 @@ async function register(req: Request, res: Response) {
 }
 
 async function registerUser(username: string, password: string, passwordConfirm: string, email: string) {
-
-    const validPass = schema.validate(password, { details: true }) as any[]
-    if (validPass.length > 0) {
-        // At least one rule was broken
-        let messages = [];
-        for (let reason of validPass) {
-            messages.push(reason.message);
-        }
-
-        throw new Error(messages.toString());
-
-    }
 
     if (password !== passwordConfirm) {
         let err = new Error("Your passwords aren't the same!");
