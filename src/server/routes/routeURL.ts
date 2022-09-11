@@ -1,13 +1,18 @@
 import type { Express } from "express";
-import addLink from "../handlers/api/url/addLink";
-import editLink from "../handlers/api/url/editLink";
-import getLink from "../handlers/api/url/getLink";
-import removeLink from "../handlers/api/url/removeLink";
-import shortenLink from "../handlers/api/url/shortenLink";
+import addURL from "../handlers/api/url/addURL.js";
+import editURL from "../handlers/api/url/editURL.js";
+import getURLs from "../handlers/api/url/getURLs.js";
+import removeURL from "../handlers/api/url/removeURL.js";
+import shortenURL from "../handlers/api/url/shortenURL.js";
+import loginChecker from "../handlers/helpers/loginCheck.js";
 
 // URL /api/url/
 function routeURL(app: Express) {
-
+    app.get("/:url", shortenURL)
+    .get("/api/url/", loginChecker, getURLs)
+    .post("/api/url/add", loginChecker, addURL)
+    .put("/api/url/edit/:url", loginChecker, editURL)
+    .delete("/api/url/delete/:url", loginChecker, removeURL)
 }
 
 export default routeURL;
