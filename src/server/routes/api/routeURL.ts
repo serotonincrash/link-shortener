@@ -5,7 +5,6 @@ import addURL from "../../handlers/api/url/addURL.js";
 import editURL from "../../handlers/api/url/editURL.js";
 import getURLs from "../../handlers/api/url/getURLs.js";
 import removeURL from "../../handlers/api/url/removeURL.js";
-import shortenURL from "../../handlers/api/url/shortenURL.js";
 
 // Middleware
 import { body } from "express-validator";

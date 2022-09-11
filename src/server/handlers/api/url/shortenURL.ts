@@ -1,8 +1,34 @@
 import { Request, Response } from "express";
+import URL from "../../../../models/urlModel.js";
+import messages from "../../../../static/messages.js";
+async function shortenURL(req: Request<{url: string}>, res: Response) {
 
-async function shortenURL(req: Request, res: Response) {
+    // TODO: validate URL as a HTTP URI before redirecting
+    let url = req.params.url;
 
-    res.end("It works!")
+    try {
+
+        let redirect = await getShortenedURL(url);
+        res.status(301);
+        res.redirect(redirect);
+        return;
+    } catch (e: any) {
+        // URL not found
+        res.redirect("/");
+    }
 }
 
-export default shortenURL;
+async function getShortenedURL(url: string) {
+    
+    let foundURL = await URL.findOne({shortURL: url});
+
+    if (!foundURL) {
+        throw new Error(messages.url.doesnt_exist);
+    }
+
+    let redirectURL = foundURL.fullURL
+
+    return redirectURL;
+}
+
+export { shortenURL, getShortenedURL };

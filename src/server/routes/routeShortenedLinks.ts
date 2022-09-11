@@ -1,9 +1,9 @@
 import { Router } from "express";
-import shortenURL from "../handlers/api/url/shortenURL.js";
+import { shortenURL } from "../handlers/api/url/shortenURL.js";
 
 // URL /:url
-let routeShortenedLinks = Router();
+let routeShortenedLinks = Router({ mergeParams: true });
 
-routeShortenedLinks.get("/", shortenURL);
+routeShortenedLinks.get("", shortenURL);
 
 export default routeShortenedLinks;
