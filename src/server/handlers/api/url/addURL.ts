@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
+import bcrypt from "bcryptjs";
+import URL from "../../../../models/urlModel.js"
 import messages from "../../../../static/messages.js";
+import { Types } from "mongoose";
 async function addURL(req: Request, res: Response) {
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -9,10 +12,13 @@ async function addURL(req: Request, res: Response) {
         return;
     }
 
-    let url = req.body.url!
-
+    let shortURL = req.body.shortURL!;
+    let longURL = req.body.fullURL!;
+    let creatorID = req.session._id!;
+    let password = req.body.password;
+    
     try {
-        await addLink(url);
+        await addLink(shortURL, longURL, creatorID, password);
         res.send(messages.url.add.success);
     } catch (e: any) {
         res.status(500);
@@ -28,7 +34,14 @@ async function addURL(req: Request, res: Response) {
     }
 }
 
-async function addLink(url: string) {
-
+async function addLink(shortURL: string, fullURL: string, creatorID: Types.ObjectId, password?: string) {
+    let url = new URL(); 
+    url.shortURL = shortURL;
+    url.fullURL = fullURL;
+    url.creator = creatorID;
+    if (password) {
+        url.password = password;
+    }
+    url.save();
 }
 export default addURL;
