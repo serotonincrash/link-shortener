@@ -4,8 +4,9 @@ import express from "express";
 import session from 'express-session';
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import routeAuth from "./src/server/routes/routeAuth.js";
-import routeURL from './src/server/routes/routeURL.js';
+import routeAPI from "./src/server/routes/routeAPI.js"
+import routeShortenedLinks from './src/server/routes/routeShortenedLinks.js';
+import routeUI from './src/server/routes/routeUI.js';
 
 const { connect } = mongoose;
 
@@ -43,8 +44,9 @@ app.use(session(sess));
 app.use(express.json({ limit: '200mb' }));
 app.use(bodyParser.urlencoded({ limit: '200mb', extended: true, parameterLimit: 20000000 }));
 app.use(bodyParser.json());
-app.use("/api/auth/", routeAuth);
-app.use("/", routeURL);
+app.use("/api/", routeAPI);
+app.use("/:url", routeShortenedLinks);
+app.use("/", routeUI);
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });

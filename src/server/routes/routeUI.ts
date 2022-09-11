@@ -1,8 +1,6 @@
-import type { Express } from "express";
+import { Router } from "express";
 
 // URL /app/
-function routeUI(app: Express) {
-
-}
+let routeUI = Router();
 
 export default routeUI;

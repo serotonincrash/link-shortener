@@ -2,16 +2,16 @@ import { Router } from "express";
 
 // Middleware
 import { body } from "express-validator";
-import denyIfLoggedIn from "../handlers/helpers/auth/denyIfLoggedIn.js";
-import loginChecker from "../handlers/helpers/auth/loginCheck.js";
+import denyIfLoggedIn from "../../handlers/helpers/auth/denyIfLoggedIn.js";
+import loginChecker from "../../handlers/helpers/auth/loginCheck.js";
 
 // Routes
-import deleteUser from "../handlers/api/auth/deleteUser.js";
-import editUser from "../handlers/api/auth/editUser.js";
-import { login } from "../handlers/api/auth/login.js";
-import register from "../handlers/api/auth/register.js";
-import { logout } from "../handlers/api/auth/logout.js";
-import validPass from "../handlers/helpers/auth/passwordValidate.js";
+import deleteUser from "../../handlers/api/auth/deleteUser.js";
+import editUser from "../../handlers/api/auth/editUser.js";
+import { login } from "../../handlers/api/auth/login.js";
+import register from "../../handlers/api/auth/register.js";
+import { logout } from "../../handlers/api/auth/logout.js";
+import validPass from "../../handlers/helpers/auth/passwordValidate.js";
 // Route /api/auth/
 const routeAuth = Router();
 
