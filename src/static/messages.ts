@@ -28,10 +28,28 @@ let messages = {
             "fail": "Password update failed.",
         },
     },
+    "url": {
+        "add": {
+            "success": "URL added successfully.",
+            "failed": "Failed to add the URL.",
+        },
+        "get": {
+            "fail": "Failed to add URL.",
+        },
+        "delete": {
+            "success": "URL deleted successfully.",
+            "fail": "Failed to delete URL.",
+        },
+        "edit": {
+            "success": "URL edited successfully.",
+            "fail": "Failed to edit URL.",
+        },
+    },
     "permissions": {
         "cant_do_that": "You can't do that!",
         "not_allowed": "You're not allowed to do this!",
         "user_already_exists": "This user already exists!",
+        "url_already_exists": "This short URL already exists!",
         "not_logged_in": "You're not logged in!",
     },
     "error": {
