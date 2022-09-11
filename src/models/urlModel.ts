@@ -3,7 +3,7 @@ const { Schema, Types, model } = mongoose;
 interface IURL {
     shortURL: string,
     fullURL: string,
-    password: string,
+    password?: string,
     creator: mongoose.Types.ObjectId,
 }
 
