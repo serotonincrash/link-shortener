@@ -30,12 +30,13 @@ async function register(req: Request, res: Response) {
         let user = await registerUser(username, password, passwordConfirm, email);
         req.session.username = user.username;
         req.session.email = user.email;
+        req.session._id = user._id;
         res.send(messages.auth.register.success)
 
     } catch (e: any) {
         res.status(500);
         if (e.code === 11000) {
-            res.status(400);
+            res.status(403);
             res.send(messages.permissions.user_already_exists);
         } else {
             res.status(400);

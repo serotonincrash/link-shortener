@@ -20,6 +20,7 @@ async function login(req: Request, res: Response) {
         let user = await loginUser(username, password);
         req.session.username = user.username;
         req.session.email = user.email;
+        req.session._id = user._id;
         res.send(messages.auth.login.success);
         
     } catch (e:any) {
