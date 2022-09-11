@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import messages from "../../../static/messages.js";
+import messages from "../../../../static/messages.js";
 
-function denyIfLoggedIn(req: Request, res: Response, next: Function) {
+async function denyIfLoggedIn(req: Request, res: Response, next: Function) {
     // Checks whether user is logged in
     if (req.session.username !== undefined) {
         res.status(403);

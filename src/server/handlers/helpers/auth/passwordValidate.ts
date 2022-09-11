@@ -1,5 +1,5 @@
 import passwordValidator from "password-validator";
-import messages from "../../../static/messages.js"
+import messages from "../../../../static/messages.js"
 
 // Password validation schema
 let schema = new passwordValidator()
