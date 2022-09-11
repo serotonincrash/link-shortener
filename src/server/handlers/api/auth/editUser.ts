@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { loginUser } from "./login.js";
+import { logoutUser} from "./logout.js";
 import messages from "../../../../static/messages.js";
 import bcrypt from "bcryptjs";
 
@@ -34,12 +35,13 @@ async function editUser(req: Request, res: Response) {
     try {
         
         await editUserDetails(username, password, newPassword, email);
+        res.send(messages.auth.edit.success);
 
     } catch (e: any) {
         
         if (e instanceof Error) {
             if (e.message.includes("Login failed")) {
-                // User being edited 
+                // User being edited is not logged in?????? idk man
                 res.status(403);
                 res.send(messages.permissions.cant_do_that);
             } else {
@@ -49,6 +51,11 @@ async function editUser(req: Request, res: Response) {
         }
        
     } finally {
+        req.session.destroy((e) => {
+            if (e) {
+                console.error(e);
+            }
+        })
         res.end();
     }
 
@@ -57,8 +64,9 @@ async function editUser(req: Request, res: Response) {
 async function editUserDetails(username: string, password: string, newPassword: string, email: string) {
     let user = await loginUser(username, password);
     
-
     let newHash = await bcrypt.hash(newPassword, 8);
-    user.update()
+    user.password = newHash;
+    await user.save();
+
 }
 export default editUser;

@@ -22,4 +22,4 @@ async function logoutUser(req: Request)  {
         }
     })
 }
-export default logout;
+export { logout, logoutUser };

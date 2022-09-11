@@ -7,7 +7,7 @@ import deleteUser from "../handlers/api/auth/deleteUser.js";
 import editUser from "../handlers/api/auth/editUser.js";
 import { login } from "../handlers/api/auth/login.js";
 import register from "../handlers/api/auth/register.js";
-import logout from "../handlers/api/auth/logout.js";
+import { logout } from "../handlers/api/auth/logout.js";
 import validPass from "../handlers/helpers/passwordValidate.js";
 // Route /api/auth/
 const routeAuth = Router();

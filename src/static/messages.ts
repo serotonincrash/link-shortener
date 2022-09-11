@@ -23,7 +23,10 @@ let messages = {
             "success": "Account deleted.",
             "fail": "Deletion failed.",
         },
-        
+        "edit": {
+            "success": "Password updated successfully.",
+            "fail": "Password update failed.",
+        },
     },
     "permissions": {
         "cant_do_that": "You can't do that!",
